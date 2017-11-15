@@ -5,8 +5,8 @@
 {{/each}}
 
 <div class="card card-body">
-  <h3>Video Idea</h3>
-  <form action="/ideas" method="post">
+  <h3>{{title}}</h3>
+  <form action={{action}} method="post">
     {{> _form }}
   </form>
 </div>
