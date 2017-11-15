@@ -1,2 +1,2 @@
 # vidjot
-Udemy trainning course with my own modifications.
+Udemy training course with my own modifications.
