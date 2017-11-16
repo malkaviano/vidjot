@@ -2,6 +2,15 @@
 
 module.exports = function(router, Idea, flash, session) {
 
+  router.use('/', (req, res, next) => {
+    if (req.session.user) {
+      next();
+    }
+    else {
+      res.redirect('/users/login');
+    }
+  });
+  
   router.get('/', (req, res) => {
 
     Idea.find({})
