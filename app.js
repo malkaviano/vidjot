@@ -10,7 +10,7 @@ const express = require('express'),
       session = require('express-session'),
       bodyParser = require('body-parser'),
       MongoStore = require('connect-mongo')(session),
-      port = 3000;
+      port = process.env.PORT || 3000;
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');

@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const salt = 12;
 
 module.exports = function(router, User, flash, session) {
-  
+
   router.get('/login', (req, res) => {
     res.render('users/user_form', { title: "Account Login", action: "/users/login", login: "login" });
   });
@@ -14,7 +14,9 @@ module.exports = function(router, User, flash, session) {
         .then(user => {
           bcrypt.compare(req.body.password, user.password).then((result) => {
             if(result) {
-              req.session.user = user;
+              req.session.userId = user._id;
+              req.session.username = user.name;
+              req.session.email = user.email;
 
               res.redirect('/ideas');
             } else {
@@ -25,6 +27,7 @@ module.exports = function(router, User, flash, session) {
           });
         })
         .catch(err => {
+          
           res.flash('error_msg', 'Email not found!');
           
           res.redirect('/users/login');

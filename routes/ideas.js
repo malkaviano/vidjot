@@ -1,19 +1,14 @@
 'use strict';
 
 module.exports = function(router, Idea, flash, session) {
+  
+  const {ensureAuthenticated, ensureAuthorized} = require('../auth');
 
-  router.use('/', (req, res, next) => {
-    if (req.session.user) {
-      next();
-    }
-    else {
-      res.redirect('/users/login');
-    }
-  });
+  router.use('/', ensureAuthenticated);
   
   router.get('/', (req, res) => {
 
-    Idea.find({})
+    Idea.find({ email: req.session.email })
         .sort({ date: 'descending' })
         .then(ideas => {
       res.render('ideas/index', { ideas: ideas });
@@ -26,16 +21,26 @@ module.exports = function(router, Idea, flash, session) {
   });
 
   router.get('/edit/:id', (req, res) => {
-    Idea.findOne({ _id: req.params.id })
-        .then(idea => { 
-          res.render(
-            'ideas/idea_form', 
-            { 
-              idea: idea, 
-              title: "", 
-              action: "/ideas/" + req.params.id + "?_method=PUT" 
+    Idea.findOne({ _id: req.params.id, email: req.session.email })
+        .then(idea => {
+          ensureAuthorized(
+            idea,
+            function() {
+              res.render(
+                'ideas/idea_form', 
+                { 
+                  idea: idea, 
+                  title: "", 
+                  action: "/ideas/" + req.params.id + "?_method=PUT" 
+                }
+              );
+            },
+            function() {
+              res.flash('error_msg', 'Not authorized!');
+
+              res.redirect('/');
             }
-          ) 
+          );
         });
   });
 
@@ -60,6 +65,8 @@ module.exports = function(router, Idea, flash, session) {
         }
       );
     } else {
+      req.body.email = req.session.email;
+
       new Idea(req.body)
         .save()
         .then(idea => {

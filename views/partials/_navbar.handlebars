@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-sm navbar-dark bg-primary">
+<nav class="navbar navbar-expand-sm navbar-dark bg-primary mb-2">
     <div class="container">
       <a class="navbar-brand" href="/">Vidjot</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
@@ -15,19 +15,11 @@
           </li>
         </ul>
         <ul class="navbar-nav ml-auto">
-          {{#if session.user }}
+          {{#if session.username }}
             <li class="nav-item">
-              <a href="/users/logout" class="nav-link">Logout {{session.user.name}}</a>
+              <a href="/users/logout" class="nav-link">Logout {{session.username}}</a>
             </li>
-          {{else}}
-            <li class="nav-item">
-              <a href="/users/login" class="nav-link">Login</a>
-            </li>
-            <li class="nav-item">
-              <a href="/users/register" class="nav-link">Register</a>
-            </li>
-          {{/if}}
-          <li class="nav-item dropdown">
+            <li class="nav-item dropdown">
             <a name="navbar-menu-link" href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" >
               Video Ideas
             </a>
@@ -36,6 +28,14 @@
               <a href="/ideas/add" class="dropdown-item">Add Idea</a>
             </div>
           </li>
+          {{else}}
+            <li class="nav-item">
+              <a href="/users/login" class="nav-link">Login</a>
+            </li>
+            <li class="nav-item">
+              <a href="/users/register" class="nav-link">Register</a>
+            </li>
+          {{/if}}          
         </ul>
       </div>
     </div>
