@@ -1,13 +1,15 @@
 'use strict';
 
 const mongoose = require('mongoose'),
-      collection = 'vidjot-dev';
+      db = require('./config/database');
 
 mongoose.Promise = global.Promise;
 
 mongoose.connect(
-  `mongodb://localhost/${collection}`,
-  { useMongoClient: true }
-).then((db) => console.log(`MongoDB connected to ${collection}`));
+  db.mongoURI,
+  { 
+    useMongoClient: true
+  }
+).then((db) => console.log(`MongoDB connected to ${db.mongoURI}`));
 
 module.exports = mongoose;
