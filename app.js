@@ -3,7 +3,7 @@
 const express = require('express'),
       path = require('path'),
       exphbs = require('express-handlebars'),
-      mongoose = require('./mongodb'),
+      mongoose = require('./config/mongodb'),
       app = express(),
       methodOverride = require('method-override'),
       flash = require('express-flash-2'),
